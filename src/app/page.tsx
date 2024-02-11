@@ -3,6 +3,7 @@ import {Button} from "@/components/ui/button";
 import {getOverlappingEffectsOfIngredients, IngredentsTable} from "@/app/ingredents-table";
 import {ingredients} from '@/constants/ingredients';
 import {useState} from "react";
+import {Input} from "@/components/ui/input";
 export default function Home() {
     const data = Object.entries(ingredients)
     const columns = ["Name", "Effect 1", "Effect 2", "Effect 3", "Effect 4"];
@@ -16,13 +17,13 @@ export default function Home() {
         return effectList.join(", ");
     }
     return (
-      <main>
+      <main className={"my-8"}>
           <h1 className={"text-4xl font-viner text-center"}>
               Morrowind Alchemy
           </h1>
-          <div className={"w-2/3 mx-auto font-viner"}>
+          <div className={"w-2/3 mx-auto font-viner flex flex-col gap-y-2"}>
               <p>
-                  Search: <input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
+                  Search: <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
               </p>
               <p>Selected Effects: {paredSelectedEffects}</p>
               <p>Selected Ingredients: {parsedSelectedIngredients}</p>

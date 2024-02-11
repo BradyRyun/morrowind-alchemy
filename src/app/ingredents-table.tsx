@@ -78,6 +78,7 @@ const generateIngredientsTable = (data: [string, string[]][], selectedIngredient
             <TableRow key={i}>
                 <TableCell className={"cursor-pointer hover:underline"} onClick={() => {
                     handleIngredientClick(ingredientName)
+                    setSearchTerm("")
                 }}>
                     {parseName(ingredientName)}
                 </TableCell>
@@ -85,7 +86,9 @@ const generateIngredientsTable = (data: [string, string[]][], selectedIngredient
 
                     return (
                         <TableCell className={'cursor-pointer hover:underline'} key={i} onClick={() => {
-                            handleEffectClick(effect)}}>
+                            handleEffectClick(effect)
+                            setSearchTerm("")
+                        }}>
                             {effect}
                         </TableCell>
                     )
@@ -120,7 +123,7 @@ export const IngredentsTable = (props: IngredientTableProps) => {
     const handleEffectClick = (effect: string) => {
         if (selectedEffects) {
             if (selectedEffects.includes(effect)) {
-                setSelectedEffects([])
+                return;
             } else {
                 setSelectedEffects([effect, ...selectedEffects])
             }
@@ -137,7 +140,7 @@ export const IngredentsTable = (props: IngredientTableProps) => {
                 return;
             }
             if (selectedIngredients.includes(ingredient)) {
-                setSelectedIngredients([])
+                return;
             } else {
                 setSelectedIngredients([ingredient, ...selectedIngredients])
             }
@@ -149,7 +152,7 @@ export const IngredentsTable = (props: IngredientTableProps) => {
         }
     }
     return (
-        <Table>
+        <Table className={'text-md'}>
             <TableHeader>
                 <TableRow>
                     {generateColumns(columns)}
