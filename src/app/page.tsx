@@ -4,9 +4,12 @@ import {getOverlappingEffectsOfIngredients, IngredentsTable} from "@/app/ingrede
 import {ingredients} from '@/constants/ingredients';
 import {useState} from "react";
 import {Input} from "@/components/ui/input";
+import {Footer} from "@/app/footer";
 export default function Home() {
     const data = Object.entries(ingredients)
     const columns = ["Name", "Effect 1", "Effect 2", "Effect 3", "Effect 4"];
+    const [lastAddedType, setLastAddedType] = useState<string>("");
+    const [lastAdded, setLastAdded] = useState<string>("");
     const [selectedEffect, setSelectedEffect] = useState<string[]>([]);
     const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
     const paredSelectedEffects = selectedEffect.join(", ")
@@ -21,7 +24,7 @@ export default function Home() {
           <h1 className={"text-4xl font-viner text-center"}>
               Morrowind Alchemy
           </h1>
-          <div className={"w-2/3 mx-auto font-viner flex flex-col gap-y-2"}>
+          <div className={"md:w-2/3 mx-auto font-viner flex flex-col gap-y-2"}>
               <p>
                   Search: <Input type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
               </p>
@@ -32,12 +35,35 @@ export default function Home() {
                       <p>Effects from selected ingredients: {parsedEffectsFromSelectedIngredients()}</p>
                   )
               }
-              <Button onClick={() => {
-                  setSelectedIngredients([])
-                  setSelectedEffect([])
-              }}>
-                  Reset
-              </Button>
+              {
+                  lastAdded != "" && (
+                      <Button
+                          onClick={() => {
+                              if (lastAddedType === "effect") {
+                                  setSelectedEffect(selectedEffect.filter(effect => effect !== lastAdded))
+                              }
+                            if (lastAddedType === "ingredient") {
+                                setSelectedIngredients(selectedIngredients.filter(ingredient => ingredient !== lastAdded))
+                            }
+                            setLastAdded("");
+                            setLastAddedType("");
+                      }}>
+                          Undo
+                      </Button>
+                  )
+              }
+              {
+                  (selectedIngredients.length > 0 || selectedEffect.length > 0) && (
+                        <Button
+                            className={"bg-red-500"}
+                            onClick={() => {
+                                setSelectedIngredients([])
+                                setSelectedEffect([])
+                            }}>
+                            Reset
+                        </Button>
+                    )
+              }
               <IngredentsTable
                   ingredients={data}
                   columns={columns}
@@ -50,6 +76,7 @@ export default function Home() {
           </div>
       <div>
       </div>
-    </main>
+      <Footer />
+      </main>
   );
 }
