@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import {Footer} from "@/app/footer";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Footer } from "./footer";
+import MenuBar from "./components/menu-bar";
 
 export const metadata: Metadata = {
   title: "Morrowind Alchemy",
@@ -17,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#FBEFD5]">{children}</body>
+      <body className="bg-[#FBEFD5] mx-auto font-viner">
+      <MenuBar />
+        {children}
+      <Footer/>
+      </body>
     </html>
   );
 }
